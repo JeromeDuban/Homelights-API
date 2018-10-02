@@ -1,16 +1,16 @@
 // =======================
 // get the packages we need ============
 // =======================
-var express     = require('express');
-var app         = express();
-var bodyParser  = require('body-parser');
-var morgan      = require('morgan');
-var fs 			= require('fs');
+const express     = require('express');
+const app         = express();
+const bodyParser  = require('body-parser');
+const morgan		= require('morgan');
+const fs 			= require('fs');
+const {spawn}  		= require('child_process');
 
+let config  	=  {name:"defaultName"};
 
-var config  	=  {name:"defaultName"};
-
-var file_path 	= 'data.json';
+const file_path 	= 'data.json';
  
 if (fs.existsSync(file_path)){
 	config = JSON.parse(fs.readFileSync(file_path, "utf8"));
@@ -96,11 +96,20 @@ apiRoutes.put('/config/red/:r/green/:g/blue/:b',function(req, res){
 apiRoutes.get('/lights/:r/:g/:b',function (req, res){
 	console.log(config);
 	if (!config.colors || !config.colors.red || !config.colors.green || !config.colors.blue){
-		// TODO SEND COMMAND
 		return res.status(500).json("Problème de configuration, un des GPIOS est mal renseigné.");
 	}else{
 
-		return res.json({sucess : true});
+		const ls = spawn('pwd');  // TODO TO BE CHANGED
+
+		ls.stdout.on('data', (data) => {
+		  console.log(data.toString().trim());
+		  return res.json({success : true});
+		});
+
+		ls.on('close', (code) => {
+		  console.log(`child process exited with code ${code}`);
+		});
+		
 	}
 });
 
