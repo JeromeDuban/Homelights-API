@@ -105,7 +105,7 @@ apiRoutes.get('/lights/:r/:g/:b',function (req, res){
 		return res.status(500).json("Problème de configuration, un des GPIOS est mal renseigné.");
 	}else{
 
-		const ls = spawn('pigs p 17 '+r+' p 22 '+g+' p 24 '+b);  // TODO TO BE CHANGED
+		const ls = spawn('pigs', ['p', '17',r,'p', '22',g,'p', '24',b]);  // TODO TO BE CHANGED
 
 		ls.stdout.on('data', (data) => {
 		  console.log(data.toString().trim());
