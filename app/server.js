@@ -114,6 +114,7 @@ apiRoutes.get('/lights/:r/:g/:b',function (req, res){
 
 		ls.on('close', (code) => {
 		  console.log(`child process exited with code ${code}`);
+		   return res.json({success : true});
 		});
 		
 	}
