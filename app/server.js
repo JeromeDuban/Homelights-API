@@ -95,11 +95,17 @@ apiRoutes.put('/config/red/:r/green/:g/blue/:b',function(req, res){
 
 apiRoutes.get('/lights/:r/:g/:b',function (req, res){
 	console.log(config);
+
+	var r = req.params.r;
+	var g = req.params.g;
+	var b = req.params.b;
+
+
 	if (!config.colors || !config.colors.red || !config.colors.green || !config.colors.blue){
 		return res.status(500).json("Problème de configuration, un des GPIOS est mal renseigné.");
 	}else{
 
-		const ls = spawn('pwd');  // TODO TO BE CHANGED
+		const ls = spawn('pigs p 17 '+r+' p 22 '+g+' p 24 '+b);  // TODO TO BE CHANGED
 
 		ls.stdout.on('data', (data) => {
 		  console.log(data.toString().trim());
