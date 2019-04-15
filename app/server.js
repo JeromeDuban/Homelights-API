@@ -131,7 +131,7 @@ apiRoutes.get('/magic/:ip/:r/:g/:b',function (req, res){
 
 	exec.stdout.on('data', (data) => {
 	  console.log(data.toString().trim());
-	  return res.json({success : true});
+	  //return res.json({success : true});
 	});
 
 	exec.on('close', (code) => {
