@@ -120,6 +120,28 @@ apiRoutes.get('/lights/:r/:g/:b',function (req, res){
 	}
 });
 
+apiRoutes.get('/magic/:ip/:r/:g/:b',function (req, res){
+
+	var ip 	= req.params.ip;
+	var r 	= req.params.r;
+	var g 	= req.params.g;
+	var b 	= req.params.b;
+
+	const exec = spawn('python3', ['-m', 'flux_led', ip ,'-c', r + ',' + g + ',' + b]);
+
+	exec.stdout.on('data', (data) => {
+	  console.log(data.toString().trim());
+	  return res.json({success : true});
+	});
+
+	exec.on('close', (code) => {
+	  console.log(`child process exited with code ${code}`);
+	   return res.json({success : true});
+	});
+		
+	
+});
+
 // apply the routes to our application with the prefix /api
 app.use('/api', apiRoutes)
 
