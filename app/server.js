@@ -12,16 +12,6 @@ let config  	=  {name:"defaultName"};
 
 const file_path 	= 'data.json';
  
-if (fs.existsSync(file_path)){
-	config = JSON.parse(fs.readFileSync(file_path, "utf8"));
-	console.log("Fichier de configuration chargé");	
-}else{
-	console.log("Aucun fichier de configuration.");
-	console.log("Création du fichier de configuration...");
-	save();
-}
-
-
 // =======================
 // configuration =========
 // =======================
@@ -53,6 +43,14 @@ apiRoutes.get('/', function(req, res) {
 });
 
 apiRoutes.get('/config/', function (req,res){
+	if (fs.existsSync(file_path)){
+ 	       	config = JSON.parse(fs.readFileSync(file_path, "utf8"));
+       	 	console.log("Fichier de configuration chargé"); 
+	}else{
+       		console.log("Aucun fichier de configuration.");
+        	console.log("Création du fichier de configuration...");
+        	save();
+	}
 	return res.send(config);
 });
 
